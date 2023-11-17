@@ -68,10 +68,10 @@ def check_response(response):
         raise KeyError('В ответе от API нет ключа "current_date".')
     if 'homeworks' not in response:
         raise KeyError('В ответе от API нет ключа "homeworks".')
-    response = response.get('homeworks')
-    if not isinstance(response, list):
+    homeworks_list = response.get('homeworks')
+    if not isinstance(homeworks_list, list):
         raise TypeError('Данные не в виде списка.')
-    return response
+    return homeworks_list
 
 
 def parse_status(homework):
