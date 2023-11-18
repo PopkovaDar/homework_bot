@@ -106,13 +106,14 @@ def main():
         logging.critical('Отсутствует обязательная переменная окружения')
         exit()
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
+    timestamp = int(time.time())
     while True:
         try:
-            timestamp = int(time.time())
-            response = get_api_answer(timestamp)
-            check_response(response)
-            if response['homeworks']:
-                message = parse_status(response['homeworks'][0])
+            requests_new = get_api_answer(timestamp)
+            check_response(requests_new)
+            homewoks_list = requests_new['homeworks']
+            if requests_new['homeworks']:
+                message = parse_status(homewoks_list[0])
                 send_message(bot, message)
         except Exception as error:
             message = f'Сбой в работе программы: {error}'
