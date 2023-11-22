@@ -95,9 +95,9 @@ def send_message(bot, message):
     logging.info('Начинаем отправку сообщения.')
     try:
         bot.send_message(TELEGRAM_CHAT_ID, message)
-        logging.debug('Сообщение отправлено.')
+        logging.debug('Сообщение отправлено: {message}.')
     except TelegramError:
-        logging.error('Ошибка при отправке сообщения.')
+        logging.error('Ошибка при отправке сообщения: {telegram_error}.')
 
 
 def main():
@@ -109,11 +109,10 @@ def main():
     timestamp = int(time.time())
     while True:
         try:
-            requests_new = get_api_answer(timestamp)
-            check_response(requests_new)
-            homewoks_list = requests_new['homeworks']
-            if requests_new['homeworks']:
-                message = parse_status(homewoks_list[0])
+            response = get_api_answer(timestamp)
+            homeworks_list = check_response(response)
+            if homeworks_list:
+                message = parse_status(homeworks_list[0])
                 send_message(bot, message)
         except Exception as error:
             message = f'Сбой в работе программы: {error}'
